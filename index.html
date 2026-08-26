@@ -341,7 +341,24 @@
     mix-blend-mode: multiply;
   }
   @media (max-width: 780px){
-    .hero-rings{ width: 92vw; right: -30%; }
+    .hero{
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      min-height: auto;
+      padding-bottom: var(--spacing-lg);
+    }
+    .hero-rings{
+      position: relative;
+      inset: auto;
+      right: auto; top: auto; transform: none;
+      order: 2;
+      width: min(72vw, 300px);
+      aspect-ratio: 1;
+      margin: var(--spacing-md) auto 0;
+    }
+    .hero-photo-circle{ width: 78%; }
+    .hero-content{ order: 1; padding-block: var(--spacing-lg) var(--spacing-sm); }
   }
   .hero-content{
     position: relative;
