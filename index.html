@@ -550,9 +550,20 @@
   .process-note{ margin-top: var(--spacing-md); color: var(--color-muted); font-size: 0.92rem; max-width: 62ch; }
   @media (max-width: 700px){
     .process-flow{ flex-direction: column; }
-    .process-step{ border-right: none; border-bottom: 1px solid var(--color-line); width: 100%; flex-direction: row; justify-content: space-between; }
+    .process-step{
+      flex: 0 1 auto;
+      border-right: none; border-bottom: 1px solid var(--color-line);
+      width: 100%;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      text-align: left;
+      gap: 0.85rem;
+      padding: var(--spacing-sm) var(--spacing-md);
+    }
     .process-step:last-child{ border-bottom: none; }
-    .process-step::after{ content: '↓'; right: auto; left: 50%; top: auto; bottom: -0.85em; transform: translateX(-50%); }
+    .process-num{ flex-shrink: 0; }
+    .process-step::after{ content: '↓'; right: auto; left: var(--spacing-md); top: auto; bottom: -0.75em; transform: none; }
     .process-step:last-child::after{ content: none; }
   }
 
@@ -758,6 +769,96 @@
     padding: 0.15em 0.5em;
     border-radius: var(--radius);
   }
+
+  /* ============ MODAL: AVISO DE PRIVACIDAD ============ */
+  .modal-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    background: rgba(10,9,8,0.72);
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md);
+  }
+  .modal-overlay.is-open{ display: flex; }
+  .modal-box{
+    position: relative;
+    background: var(--color-bg);
+    border: 1px solid var(--color-line-strong);
+    max-width: 720px;
+    width: 100%;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 40px 90px -30px rgba(10,9,8,0.5);
+  }
+  .modal-close{
+    position: absolute;
+    top: var(--spacing-sm);
+    right: var(--spacing-sm);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--color-orange);
+    color: #0A0A0A;
+    border: none;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 200ms var(--ease);
+  }
+  .modal-close:hover{ transform: scale(1.06); }
+  .modal-body{
+    overflow-y: auto;
+    padding: var(--spacing-lg);
+  }
+  .modal-body h2{
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.6vw, 1.8rem);
+    margin-bottom: var(--spacing-md);
+    padding-right: var(--spacing-lg);
+  }
+  .modal-body h3{
+    font-family: var(--font-body);
+    font-size: 0.98rem;
+    font-weight: 700;
+    margin-top: var(--spacing-md);
+    margin-bottom: 0.5rem;
+    color: var(--color-accent-ink);
+  }
+  .modal-body p{
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    margin-bottom: 0.75rem;
+  }
+  .modal-body ul{
+    margin: 0 0 0.75rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .modal-body li{
+    color: var(--color-muted);
+    font-size: 0.92rem;
+    padding-left: 1.1em;
+    position: relative;
+  }
+  .modal-body li::before{
+    content: '—';
+    color: var(--color-orange);
+    position: absolute;
+    left: 0;
+  }
+  .modal-body a{ color: var(--color-accent-ink); }
+  .modal-body a:hover{ color: var(--color-orange); }
+  .modal-body strong{ color: var(--color-text); }
+  @media (max-width: 560px){
+    .modal-box{ max-height: 90vh; }
+    .modal-body{ padding: var(--spacing-md); }
+  }
 </style>
 </head>
 <body>
@@ -772,6 +873,7 @@
     <nav class="primary-nav" aria-label="Navegación principal">
       <a href="#soluciones">Maquinaria</a>
       <a href="#lineas">Líneas automatizadas</a>
+      <a href="catalog.html">Catálogo</a>
       <a href="#servicios">Servicios</a>
       <a href="#nosotros">Nosotros</a>
       <a href="#cotizar">Contacto</a>
@@ -788,6 +890,7 @@
 <nav id="mobileDrawer" class="mobile-drawer" aria-label="Navegación móvil">
   <a href="#soluciones">Maquinaria</a>
   <a href="#lineas">Líneas automatizadas</a>
+  <a href="catalog.html">Catálogo</a>
   <a href="#servicios">Servicios</a>
   <a href="#nosotros">Nosotros</a>
   <a href="#cotizar" class="btn btn-primary" style="align-self:flex-start; font-family:var(--font-body); font-size:1rem;">Cotizar</a>
@@ -985,7 +1088,7 @@
             <li>Marca registrada: Saifán · Origen: Shandong, China</li>
           </ul>
           <div style="margin-top: var(--spacing-md); display:flex; gap: var(--spacing-sm); flex-wrap: wrap;">
-            <a href="#cotizar" class="btn btn-outline">Ver especificaciones <span class="arrow">→</span></a>
+            <a href="catalog.html" class="btn btn-outline">Ver catálogo completo <span class="arrow">→</span></a>
             <a href="#cotizar" class="btn btn-primary">Solicitar información</a>
           </div>
         </div>
@@ -1209,7 +1312,7 @@
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8c1.4 2.8 3.8 5.1 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.6 21 3 13.4 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.2 1L6.6 10.8Z" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
               <div>
                 <span class="contact-label">Teléfono</span>
-                <a href="tel:+524621522870">+52 (462) 152 2870</a> · <a href="tel:+524621263994">+52 (462) 126 3994</a>
+                <a href="tel:+524621263994">+52 (462) 126 3994</a>
               </div>
             </div>
             <div class="contact-item">
@@ -1348,6 +1451,7 @@
           <li><a href="#soluciones">Clavado</a></li>
           <li><a href="#soluciones">Pintado y sellado</a></li>
           <li><a href="#lineas">Líneas automatizadas</a></li>
+          <li><a href="catalog.html">Catálogo completo</a></li>
         </ul>
       </div>
       <div>
@@ -1361,7 +1465,6 @@
       <div>
         <h4>Contacto</h4>
         <ul>
-          <li><a href="tel:+524621522870">+52 (462) 152 2870</a></li>
           <li><a href="tel:+524621263994">+52 (462) 126 3994</a></li>
           <li><a href="mailto:ventas@tecma.com.mx">ventas@tecma.com.mx</a></li>
           <li><a href="mailto:info@tecma.com.mx">info@tecma.com.mx</a></li>
@@ -1371,7 +1474,7 @@
     </div>
     <div class="footer-bottom">
       <span>© <span id="year"></span> TECMA Machinery. Todos los derechos reservados.</span>
-      <a href="#" id="privacyLink">Aviso de privacidad <span class="pending">[PENDIENTE DE CONFIRMAR]</span></a>
+      <a href="javascript:void(0)" id="privacyLink" aria-haspopup="dialog" aria-controls="privacyModal">Aviso de privacidad</a>
     </div>
   </div>
 </footer>
@@ -1579,8 +1682,112 @@
     form.reset();
   });
 
+  // Modal: Aviso de Privacidad
+  var privacyLink = document.getElementById('privacyLink');
+  var privacyModal = document.getElementById('privacyModal');
+  var privacyModalClose = document.getElementById('privacyModalClose');
+  var privacyLastFocused = null;
+
+  function openPrivacyModal(){
+    privacyLastFocused = document.activeElement;
+    privacyModal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    privacyModalClose.focus();
+  }
+  function closePrivacyModal(){
+    privacyModal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (privacyLastFocused && typeof privacyLastFocused.focus === 'function') {
+      privacyLastFocused.focus();
+    }
+  }
+  if (privacyLink && privacyModal && privacyModalClose) {
+    privacyLink.addEventListener('click', function(e){
+      e.preventDefault();
+      openPrivacyModal();
+    });
+    privacyModalClose.addEventListener('click', closePrivacyModal);
+    privacyModal.addEventListener('click', function(e){
+      if (e.target === privacyModal) closePrivacyModal();
+    });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && privacyModal.classList.contains('is-open')) {
+        closePrivacyModal();
+      }
+    });
+  }
+
 })();
 </script>
+
+<!-- Modal: Aviso de Privacidad -->
+<div class="modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-labelledby="privacyModalTitle">
+  <div class="modal-box">
+    <button type="button" class="modal-close" id="privacyModalClose" aria-label="Cerrar aviso de privacidad">×</button>
+    <div class="modal-body">
+      <h2 id="privacyModalTitle">Aviso de Privacidad</h2>
+
+      <p><strong>TECMA Machinery</strong>, con domicilio en
+        <strong>Laboratorio CFE, Mocuzari 2025, Irapuato, Guanajuato</strong>,
+        es responsable del tratamiento y protección de los datos personales proporcionados a través de este sitio web.</p>
+
+      <h3>Datos personales que podemos recabar</h3>
+      <p>A través de nuestros formularios de contacto y solicitud de cotización podemos recabar datos como:</p>
+      <ul>
+        <li>Nombre</li>
+        <li>Empresa</li>
+        <li>Correo electrónico</li>
+        <li>Número telefónico</li>
+        <li>País</li>
+        <li>Estado</li>
+        <li>Información proporcionada voluntariamente sobre el proyecto</li>
+        <li>Nombre de archivos o documentos que el usuario indique que desea compartir</li>
+      </ul>
+
+      <h3>Finalidades del tratamiento</h3>
+      <p>Los datos personales proporcionados podrán utilizarse para:</p>
+      <ul>
+        <li>Atender solicitudes de información.</li>
+        <li>Elaborar y dar seguimiento a cotizaciones.</li>
+        <li>Contactar a clientes y prospectos.</li>
+        <li>Conocer las características y necesidades de un proyecto.</li>
+        <li>Elaborar propuestas comerciales.</li>
+        <li>Proporcionar información sobre maquinaria, productos y servicios de TECMA Machinery.</li>
+        <li>Dar seguimiento a relaciones comerciales existentes o potenciales.</li>
+      </ul>
+      <p>TECMA Machinery no utilizará sus datos personales para finalidades incompatibles con las anteriores sin contar, cuando corresponda, con el consentimiento del titular.</p>
+
+      <h3>Protección de la información</h3>
+      <p>TECMA Machinery aplicará medidas razonables de seguridad administrativas, técnicas y físicas destinadas a proteger los datos personales contra pérdida, alteración, destrucción, uso, acceso o tratamiento no autorizado.</p>
+
+      <h3>Transferencia de datos</h3>
+      <p>Los datos personales no serán vendidos a terceros.</p>
+      <p>En caso de que sea necesario utilizar proveedores tecnológicos o prestadores de servicios para la operación del sitio web o la comunicación con los usuarios, el tratamiento de la información se realizará conforme a las disposiciones legales aplicables.</p>
+
+      <h3>Derechos ARCO</h3>
+      <p>El titular puede solicitar en cualquier momento:</p>
+      <ul>
+        <li>Acceso a sus datos personales.</li>
+        <li>Rectificación cuando sean incorrectos o estén desactualizados.</li>
+        <li>Cancelación cuando considere que no son necesarios para las finalidades señaladas.</li>
+        <li>Oposición al tratamiento de sus datos en los casos legalmente procedentes.</li>
+      </ul>
+      <p>Asimismo, podrá solicitar la revocación de su consentimiento cuando resulte aplicable.</p>
+      <p>Para ejercer estos derechos, el titular puede enviar una solicitud al siguiente correo electrónico: <a href="mailto:ventas@tecma.com.mx">ventas@tecma.com.mx</a>.</p>
+      <p>La solicitud deberá contener la información necesaria para identificar al titular y especificar el derecho que desea ejercer.</p>
+
+      <h3>Cookies y tecnologías similares</h3>
+      <p>Este sitio puede utilizar cookies y tecnologías similares necesarias para su correcto funcionamiento.</p>
+      <p>En caso de implementar herramientas de medición, analítica o tecnologías adicionales, TECMA Machinery podrá actualizar este Aviso de Privacidad para informar sobre su uso.</p>
+      <p>El usuario puede administrar o limitar determinadas cookies mediante la configuración de su navegador.</p>
+
+      <h3>Cambios al Aviso de Privacidad</h3>
+      <p>TECMA Machinery podrá modificar o actualizar este Aviso de Privacidad cuando resulte necesario como consecuencia de cambios legales, operativos o relacionados con los servicios ofrecidos.</p>
+      <p>Las modificaciones estarán disponibles a través de este mismo sitio web.</p>
+      <p><em>Última actualización: agosto de 2026.</em></p>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
