@@ -627,6 +627,23 @@
   .stock-copy p{ color: var(--color-muted); margin-bottom: var(--spacing-md); max-width: 46ch; }
 
   /* ============ VIDEO ============ */
+  .video-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-lg);
+  }
+  @media (max-width: 780px){
+    .video-grid{ grid-template-columns: 1fr; }
+  }
+  .video-label{
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent-ink);
+    margin-bottom: var(--spacing-sm);
+  }
   .video-frame{
     position: relative;
     aspect-ratio: 16/9;
@@ -1290,10 +1307,23 @@
           <h2>Vea nuestras soluciones en operación.</h2>
         </div>
       </div>
-      <div class="video-frame reveal" id="videoFrame" aria-label="Video corporativo de TECMA Machinery">
-        <button class="video-play" id="videoPlayBtn" type="button" aria-label="Reproducir video corporativo">
-          <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
-        </button>
+      <div class="video-grid reveal">
+        <div class="video-item">
+          <span class="video-label">SF9025</span>
+          <div class="video-frame" id="videoFrame1" aria-label="Video de la clavadora SF9025">
+            <button class="video-play" id="videoPlayBtn1" type="button" data-youtube-id="QAgmC8_-gag" aria-label="Reproducir video de la SF9025">
+              <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="video-item">
+          <span class="video-label">SF1000</span>
+          <div class="video-frame" id="videoFrame2" aria-label="Video de la línea SF1000">
+            <button class="video-play" id="videoPlayBtn2" type="button" data-youtube-id="gAhsHSYV28w" aria-label="Reproducir video de la SF1000">
+              <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -1531,17 +1561,17 @@
 
   // Validación del formulario de cotización (cliente). Sin backend conectado:
   // el endpoint de envío debe configurarse en el servidor (ver comentario abajo).
-  // Video corporativo (YouTube): carga el iframe solo al hacer clic en play,
-  // para no afectar el rendimiento de la página en visitantes que no lo reproducen.
-  var videoBtn = document.getElementById('videoPlayBtn');
-  var videoFrame = document.getElementById('videoFrame');
-  if (videoBtn && videoFrame) {
-    videoBtn.addEventListener('click', function(){
-      var youtubeId = 'QAgmC8_-gag';
+  // Videos (YouTube): cada botón carga su propio iframe solo al hacer clic en play,
+  // para no afectar el rendimiento de la página en visitantes que no los reproducen.
+  document.querySelectorAll('.video-play[data-youtube-id]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var youtubeId = btn.getAttribute('data-youtube-id');
+      var frame = btn.closest('.video-frame');
+      if (!frame) return;
       var embedSrc = 'https://www.youtube-nocookie.com/embed/' + youtubeId + '?autoplay=1&rel=0';
       var iframe = document.createElement('iframe');
       iframe.src = embedSrc;
-      iframe.setAttribute('title', 'Video corporativo de TECMA Machinery');
+      iframe.setAttribute('title', 'Video de TECMA Machinery');
       iframe.style.position = 'absolute';
       iframe.style.inset = '0';
       iframe.style.width = '100%';
@@ -1549,10 +1579,10 @@
       iframe.style.border = 'none';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.allowFullscreen = true;
-      videoFrame.innerHTML = '';
-      videoFrame.appendChild(iframe);
+      frame.innerHTML = '';
+      frame.appendChild(iframe);
     });
-  }
+  });
 
   var form = document.getElementById('quoteForm');
   var status = document.getElementById('formStatus');
