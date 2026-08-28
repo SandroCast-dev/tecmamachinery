@@ -629,10 +629,13 @@
   /* ============ VIDEO ============ */
   .video-grid{
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-lg);
   }
-  @media (max-width: 780px){
+  @media (max-width: 980px){
+    .video-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 600px){
     .video-grid{ grid-template-columns: 1fr; }
   }
   .video-label{
@@ -1317,9 +1320,17 @@
           </div>
         </div>
         <div class="video-item">
-          <span class="video-label">SF1000</span>
-          <div class="video-frame" id="videoFrame2" aria-label="Video de la línea SF1000">
-            <button class="video-play" id="videoPlayBtn2" type="button" data-youtube-id="gAhsHSYV28w" aria-label="Reproducir video de la SF1000">
+          <span class="video-label">Línea de pintura</span>
+          <div class="video-frame" id="videoFrame2" aria-label="Video de la línea de pintura">
+            <button class="video-play" id="videoPlayBtn2" type="button" data-youtube-id="gAhsHSYV28w" aria-label="Reproducir video de la línea de pintura">
+              <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="video-item">
+          <span class="video-label">Línea de ensamble tarima de Block SF1000-2</span>
+          <div class="video-frame" id="videoFrame3" aria-label="Video de la línea de ensamble tarima de Block SF1000-2">
+            <button class="video-play" id="videoPlayBtn3" type="button" data-youtube-id="URZ3ZlroNEI" aria-label="Reproducir video de la línea de ensamble tarima de Block SF1000-2">
               <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true"><path d="M8 5v14l11-7-11-7Z" fill="currentColor"/></svg>
             </button>
           </div>
