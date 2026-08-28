@@ -638,14 +638,17 @@
   @media (max-width: 600px){
     .video-grid{ grid-template-columns: 1fr; }
   }
+  .video-item{ display: flex; flex-direction: column; }
   .video-label{
     display: block;
     font-family: var(--font-mono);
     font-size: 0.8rem;
+    line-height: 1.4;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--color-accent-ink);
     margin-bottom: var(--spacing-sm);
+    min-height: calc(0.8rem * 1.4 * 2);
   }
   .video-frame{
     position: relative;
